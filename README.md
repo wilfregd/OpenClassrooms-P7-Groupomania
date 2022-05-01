@@ -41,7 +41,7 @@ Elles donnent accès à des utilisateurs fictifs et leur création sera notifié
 
 ## Utilisation
 
-Pour s'inscrire sur sire, il vous faut renseigner :
+Pour s'inscrire sur le site, il vous faut renseigner :
 
 - Un nom (de 1 à 20 caractères)
 - Un prénom (de 1 à 20 caractères)
