@@ -556,7 +556,7 @@ input {
   flex-direction: row;
   flex-wrap: nowrap;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
 }
 .user-infobox img {
   width: 200px;

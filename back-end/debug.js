@@ -33,6 +33,29 @@ function createDebugData(){
         .catch(err => console.log(err));
     })
     .catch(err => console.log(err));
+
+    //Création de faux comptes utilisateurs
+    bcrypt.hash(process.env.DEBUG_ACCOUNTS_PASSWORD, 10)
+    .then(hash => {
+        User.bulkCreate([
+            //H
+            { nom: "doe", prenom: "john", email: "johndoe@groupomania.com", password: hash, profilePic: "img/debug/user/default.jpg", description: "Membre de Groupomania !"},
+            { nom: "martin", prenom: "léo", email: "leomartin@groupomania.com", password: hash, profilePic: "img/debug/user/maleA.png", description: "Membre de Groupomania !"},
+            { nom: "bernard", prenom: "gabriel", email: "gabrielbernard@groupomania.com", password: hash, profilePic: "img/debug/user/maleB.png", description: "Membre de Groupomania !"},
+            { nom: "dubois", prenom: "arthur", email: "arthurdubois@groupomania.com", password: hash, profilePic: "img/debug/user/maleC.png", description: "Membre de Groupomania !"},
+            { nom: "legrand", prenom: "quentin", email: "quentinlegrand@groupomania.com", password: hash, profilePic: "img/debug/user/maleD.png", description: "Membre de Groupomania !"},
+            
+            //F
+            { nom: "doe", prenom: "jane", email: "janedoe@groupomania.com", password: hash, profilePic: "img/debug/user/default.jpg", description: "Membre de Groupomania !"},
+            { nom: "martin", prenom: "jade", email: "jademartin@groupomania.com", password: hash, profilePic: "img/debug/user/femaleA.png", description: "Membre de Groupomania !"},
+            { nom: "faure", prenom: "louise", email: "louisefaure@groupomania.com", password: hash, profilePic: "img/debug/user/femaleB.png", description: "Membre de Groupomania !"},
+            { nom: "dubois", prenom: "emma", email: "emmadubois@groupomania.com", password: hash, profilePic: "img/debug/user/femaleC.png", description: "Membre de Groupomania !"},
+            { nom: "legrand", prenom: "alice", email: "alicelegrand@groupomania.com", password: hash, profilePic: "img/debug/user/femaleD.png", description: "Membre de Groupomania !"},
+        ],
+        {
+          ignoreDuplicates: true,
+        });
+    })
 }
 
 module.exports = createDebugData;
