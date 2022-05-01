@@ -18,8 +18,14 @@ module.exports.isUserLoggedIn = (req, res, next) => {
     }
 };
 
-module.exports.signup = (req, res, next) => { //TODO don't allow if already logged in
+module.exports.signup = (req, res, next) => {
     console.log("Réception de requête d'inscription: " + req.body.email);
+
+    /*
+    if(req.session.user){
+        console.log("Logged in");
+    }
+    */
 
     //Nettoyage de l'email
     const sanitizer = new Sanitizer(false);
@@ -85,9 +91,9 @@ module.exports.signup = (req, res, next) => { //TODO don't allow if already logg
             bcrypt.hash(req.body.password, 10)
             .then(hash => {
                 const user = User.build({
-                    nom: req.body.nom,
-                    prenom: req.body.prenom,
-                    email: req.body.email,
+                    nom: sanitizer.sanitizeString(req.body.nom),
+                    prenom: sanitizer.sanitizeString(req.body.prenom),
+                    email: sanitizer.sanitizeString(req.body.email),
                     password: hash,
                 });
 
@@ -139,7 +145,7 @@ module.exports.login = (req, res, next) => { //TODO don't allow if already logge
                 sanitizer.isEmpty(req.body.email, 'email', "L'email ne peut pas être vide.")
             }
             else{
-                sanitizer.writeError('email', "L'email ne correspon à aucun compte");
+                sanitizer.writeError('email', "L'email ne correspond à aucun compte");
             }
 
             //Mot de passe
@@ -173,6 +179,11 @@ module.exports.login = (req, res, next) => { //TODO don't allow if already logge
                     }
                 })
                 .catch(error => res.status(500).json(error));
+            }
+            else{
+                if(sanitizer.hasError){
+                    return res.status(400).json(sanitizer.errors);
+                }
             }
         } 
         catch (err) {

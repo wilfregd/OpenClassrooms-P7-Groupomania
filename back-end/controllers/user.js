@@ -1,4 +1,5 @@
 const fs = require('fs');
+const Sanitizer = require('../utils/sanitizer');
 const sequelize = require('../sequelize');
 const User = require('../models/user');
 
@@ -38,15 +39,35 @@ module.exports.updateUserInfo = (req, res, next) => {
                 }
             }
 
-            //Mise à jour du post
+            //Vérification des inputs
+            const sanitizer = new Sanitizer(false);
+
+            //Nom
+            if(!sanitizer.isEmpty(req.body.nom, 'nom', "Le nom ne peut pas être vide.")){
+                if(sanitizer.isSimpleString(req.body.nom, 'nom', "Le nom ne peut contenir que des lettres et/ou des tirets '-'")){
+                    sanitizer.isLength(req.body.nom, 1, 25, 'nom', "Le nom doit être entre 1 et 25 caractères");
+                }
+            }
+
+            //Prénom
+            if(!sanitizer.isEmpty(req.body.prenom, 'prenom', "Le prénom ne peut pas être vide.")){
+                if(sanitizer.isSimpleString(req.body.prenom, 'prenom', "Le prénom ne peut contenir que des lettres et/ou des tirets '-'")){
+                    sanitizer.isLength(req.body.prenom, 1, 25, 'prenom', "Le prénom doit être entre 1 et 25 caractères");
+                }
+            }
+
+            if(sanitizer.hasError){
+                return res.status(400).json(sanitizer.errors);
+            }
+
             const selectObj = {
-                nom: req.body.nom,
-                prenom: req.body.prenom,
-                description: req.body.description,
+                nom: sanitizer.sanitizeString(req.body.nom),
+                prenom: sanitizer.sanitizeString(req.body.prenom),
+                description: sanitizer.sanitizeString(req.body.description)
             };
 
+            //Valide
             if(req.file){
-                console.log(req.file);
                 selectObj.profilePic = `${req.file.path.substr(7)}`;
             }
 
@@ -62,9 +83,9 @@ module.exports.updateUserInfo = (req, res, next) => {
                 console.log("User updated successfully!");
                 const updatedUserData = {
                     id: req.session.user.id,
-                    nom: req.body.nom,
-                    prenom: req.body.prenom,
-                    description: req.body.description,
+                    nom: selectObj.nom,
+                    prenom: selectObj.prenom,
+                    description: selectObj.description,
                     profilePic: (req.file ? "http://localhost:8000/" + `${req.file.path.substr(7)}` : user.profilePic),
                 };
 

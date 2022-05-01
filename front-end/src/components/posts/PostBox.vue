@@ -5,7 +5,7 @@
         <img
           class="userpic post__userPic"
           v-bind:src="`${post.user.profilePic}`"
-          alt="Utilisateur {{post.user.prenom}} {{post.user.nom}}"
+          :alt="`Utilisateur ${post.user.prenom} ${post.user.nom}`"
         />
       </router-link>
       <div class="post__usertext">
@@ -26,6 +26,7 @@
       <div class="post-editbox" v-if="isEditMode">
         <h4>Modifier le post:</h4>
         <form v-on:submit.prevent="onEditPost" enctype="multipart/form-data">
+          <h5 class="error" v-if="pEditError">{{ pEditError }}</h5>
           <textarea v-model="postTextEdit" placeholder="Modifier le texte..." />
           <input @change="onUploadImage" type="file" accept=".jpg,.jpeg,.png" />
           <button class="btn">Modifier</button>
@@ -102,6 +103,7 @@ export default {
       commentText: "", //TODO make sure it's not empty
       isUserPost: false,
       isEditMode: false,
+      pEditError: "",
       comments: [],
 
       //Post edit
@@ -169,29 +171,40 @@ export default {
         .catch((err) => console.log(err));
     },
     onEditPost() {
-      const formData = new FormData();
-      formData.append("id", this.post.id);
-      formData.append("text", this.postTextEdit);
+      this.pEditError = "";
 
-      if (this.postFileEdit != null) {
-        formData.append("image", this.postFileEdit, this.postFileEdit.name);
+      //Vérifier les inputs
+      if (this.postTextEdit == "" && this.postFileEdit == null) {
+        this.pEditError = "Le post ne peut pas être vide.";
+      } else {
+        const formData = new FormData();
+        formData.append("id", this.post.id);
+        formData.append("text", this.postTextEdit);
+
+        if (this.postFileEdit != null) {
+          formData.append("image", this.postFileEdit, this.postFileEdit.name);
+        }
+
+        axios
+          .put("http://localhost:8000/api/post/updatepost", formData, config)
+          .then((response) => {
+            if (response.status == 200) {
+              this.postTextEdit = "";
+              this.postFileEdit = null;
+              this.isEditMode = false;
+              this.$emit("edit-post-values", response.data);
+            }
+          })
+          .catch((err) => console.log(err));
       }
-
-      axios
-        .put("http://localhost:8000/api/post/updatepost", formData, config)
-        .then((response) => {
-          if (response.status == 200) {
-            this.postTextEdit = "";
-            this.postFileEdit = null;
-            this.isEditMode = false;
-            this.$emit("edit-post-values", response.data);
-          }
-        })
-        .catch((err) => console.log(err));
     },
     onEditMode() {
       this.postTextEdit = this.post.text;
       this.isEditMode = !this.isEditMode;
+
+      if (this.isEditMode) {
+        this.pEditError = "";
+      }
     },
     onAddComment() {
       const commentObj = {

@@ -5,7 +5,7 @@
         <img
           class="userpic comment__image"
           v-bind:src="`${comment.user.profilePic}`"
-          alt="Utilisateur {{comment.user.prenom}} {{comment.user.nom}}"
+          :alt="`Utilisateur ${comment.user.prenom} ${comment.user.nom}`"
         />
       </router-link>
       <div class="comment__userinfo">
@@ -24,12 +24,15 @@
     <div class="comment__content">
       <p v-if="!isEditMode">{{ comment.text }}</p>
       <form v-else>
-        <input
-          type="text"
-          placeholder="Modifier le commentaire..."
-          v-model="commentText"
-        />
-        <button class="btn" @click.prevent="onUpdateComment">Modifier</button>
+        <h5 class="error" v-if="cEditError">{{ cEditError }}</h5>
+        <div class="comment__edit-form">
+          <input
+            type="text"
+            placeholder="Modifier le commentaire..."
+            v-model="commentText"
+          />
+          <button class="btn" @click.prevent="onUpdateComment">Modifier</button>
+        </div>
       </form>
     </div>
   </div>
@@ -44,6 +47,7 @@ export default {
       formattedTimestamp: "00/00/00 à 00:00",
       isUserComment: false,
       isEditMode: false,
+      cEditError: "",
       commentText: "",
     };
   },
@@ -51,18 +55,29 @@ export default {
     onEditMode() {
       this.commentText = this.comment.text;
       this.isEditMode = !this.isEditMode;
+
+      if (this.isEditMode) {
+        this.cEditError = "";
+      }
     },
     onDeleteComment() {
       this.$emit("delete-comment", this.comment.id);
     },
     onUpdateComment() {
-      const data = {
-        id: this.comment.id,
-        text: this.commentText,
-      };
-      this.isEditMode = false;
-      this.commentText = "";
-      this.$emit("update-comment", data);
+      this.cEditError = "";
+
+      //Vérifier les inputs
+      if (this.commentText == "") {
+        this.cEditError = "Le commentaire ne peut pas être vide.";
+      } else {
+        const data = {
+          id: this.comment.id,
+          text: this.commentText,
+        };
+        this.isEditMode = false;
+        this.commentText = "";
+        this.$emit("update-comment", data);
+      }
     },
   },
   created() {

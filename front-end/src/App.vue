@@ -73,7 +73,7 @@ export default {
         .get("http://localhost:8000/api/auth/logout", config)
         .then((response) => {
           if (response) {
-            this.$router.push("auth");
+            this.$router.push("/auth");
           }
         });
     },

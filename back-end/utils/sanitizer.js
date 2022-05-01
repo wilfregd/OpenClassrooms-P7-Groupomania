@@ -23,7 +23,11 @@ class Sanitizer{
         .replace("<", "")
         .replace(">", "")
         .replace(" ", "")
-        .replace("*", "");
+        .replace("*", "")
+        .replace("\"", "")
+        .replace("'", "")
+        .replace("=", "")
+        .replace("`", "");
     }
 
     writeError(errorType, error){

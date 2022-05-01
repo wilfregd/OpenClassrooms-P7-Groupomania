@@ -4,7 +4,7 @@
       <!--IMAGE-->
       <img
         v-bind:src="`${pageUser.profilePic}`"
-        alt="Utilisateur {{pageUser.prenom}} {{pageUser.nom}}"
+        :alt="`Utilisateur ${pageUser.prenom} ${pageUser.nom}`"
       />
       <div class="user-infobox__infos">
         <h3>{{ pageUser.prenom }} {{ pageUser.nom }}</h3>
@@ -20,6 +20,7 @@
         :key="i"
         v-bind:post="posts[i]"
         v-bind:user="pageUser"
+        v-on:edit-post-values="onUpdatePost"
       />
     </div>
     <div v-if="isNotFound" class="post_container">
@@ -54,6 +55,16 @@ export default {
     },
   },
   methods: {
+    onUpdatePost(data) {
+      const selPost = this.posts.find((post) => post.id == data.id);
+      selPost.text = data.text;
+
+      if (data.isImageEdited) {
+        selPost.image = data.image;
+      }
+
+      selPost.timestamp = data.timestamp;
+    },
     loadData() {
       if (this.$route.name == "user") {
         //Mise à jour de l'utilisateur demandé

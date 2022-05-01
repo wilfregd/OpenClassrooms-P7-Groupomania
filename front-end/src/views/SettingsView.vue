@@ -3,23 +3,28 @@
     <form v-if="user" class="settings-form">
       <h3>Paramètres de {{ user.prenom }}</h3>
       <h5>Nom</h5>
+      <h5 class="error" v-if="eErrors.nom">{{ eErrors.nom }}</h5>
       <input
         class="settings-input"
-        v-model="userNom"
+        v-model="eFormValues.nom"
         type="text"
         placeholder="nom"
       />
       <h5>Prénom</h5>
+      <h5 class="error" v-if="eErrors.prenom">{{ eErrors.prenom }}</h5>
       <input
         class="settings-input"
-        v-model="userPrenom"
+        v-model="eFormValues.prenom"
         type="text"
         placeholder="prenom"
       />
       <h5>Description</h5>
+      <h5 class="error" v-if="eErrors.description">
+        {{ eErrors.description }}
+      </h5>
       <textarea
         class="settings-input"
-        v-model="userDescription"
+        v-model="eFormValues.description"
         placeholder="description"
       />
       <div class="settings-picture">
@@ -55,6 +60,12 @@ export default {
       userPrenom: "",
       userDescription: "",
       formFile: null,
+      eFormValues: {
+        nom: "",
+        prenom: "",
+        description: "",
+      },
+      eErrors: {},
     };
   },
   methods: {
@@ -76,6 +87,8 @@ export default {
         .catch((err) => console.log(err));
     },
     onUpdateUserInfo() {
+      this.eErrors = {};
+
       const formData = new FormData();
       formData.append("id", this.user.id);
       formData.append("nom", this.userNom);
@@ -101,13 +114,17 @@ export default {
             this.$emit("update-user", userData);
           }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          //Affichage des erreurs obtenues
+          const errObj = JSON.parse(JSON.stringify(err.response));
+          this.eErrors = errObj.data;
+        });
     },
   },
   created() {
-    this.userNom = this.user.nom;
-    this.userPrenom = this.user.prenom;
-    this.userDescription = this.user.description;
+    this.eFormValues.nom = this.user.nom;
+    this.eFormValues.prenom = this.user.prenom;
+    this.eFormValues.description = this.user.description;
   },
 };
 </script>
