@@ -1,5 +1,6 @@
 //Server
 require('dotenv').config();
+const debug = require('./debug');
 const cors = require('cors');
 const session = require('express-session');
 const express = require('express');
@@ -23,6 +24,9 @@ createAssociations();
 console.log('> Synchronizing tables to database...');
 sequelize.sync({ logging: false, alter: true })
 .catch(error => console.error(error));
+
+//Ajout des données debug
+debug();
 
 //Default middlewares
 app.use(cors({
