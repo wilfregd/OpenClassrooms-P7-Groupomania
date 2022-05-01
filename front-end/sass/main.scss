@@ -1,0 +1,18 @@
+//Base
+@import './base/base.scss';
+
+//Components
+@import './components/userpic.scss';
+@import './components/main-navbar.scss';
+@import './components/buttons.scss';
+@import './components/posts/post.scss';
+@import './components/posts/comment.scss';
+
+//Layout
+@import './layout/footer.scss';
+
+//Pages
+@import './pages/auth.scss';
+@import './pages/user.scss';
+@import './pages/home.scss';
+@import './pages/settings.scss';

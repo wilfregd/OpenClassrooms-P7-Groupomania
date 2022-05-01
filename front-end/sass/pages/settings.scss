@@ -1,0 +1,39 @@
+.settings-form {
+    margin: 0 auto;
+    margin-top: 100px;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid rgb(221, 221, 221);
+    width: 70%;
+
+    & h3 {
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+        border-bottom: 1px solid rgb(221, 221, 221);
+    }
+
+    & textarea {
+        height: 120px;
+    }
+}
+
+.settings-picture {
+    & img {
+        border: 1px solid rgb(221, 221, 221);
+        width: 150px;
+        height: 150px;
+        margin: 0;
+        margin-bottom: 20px;
+    }
+}
+
+.settings-input {
+    width: 80%;
+    border: 1px solid rgb(194, 194, 194);
+    padding: 5px;
+
+    &:focus {
+        border: 1px solid rgb(151, 151, 151);
+        outline: none;
+    }
+}

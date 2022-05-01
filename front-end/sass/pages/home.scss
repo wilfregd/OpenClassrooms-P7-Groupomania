@@ -1,0 +1,11 @@
+#home {
+    padding: 0 30px;
+
+    //Titre
+    & h2 {
+        text-align: center;
+        justify-self: center;
+        align-self: center;
+        margin: 20px 0px;
+    }
+}
