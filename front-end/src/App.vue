@@ -52,21 +52,29 @@ export default {
   components: {
     //footerMain,
   },
+  beforeRouteEnter() {},
   beforeCreate() {
-    axios
-      .get("http://localhost:8000/api/auth/isloggedin", config)
-      .then((response) => {
-        if (response.data.message == 0) {
-          //Redirection si l'utilisateur n'est pas connecté
+    if (
+      document.cookie.indexOf("userToken") == -1 &&
+      this.$route.name != "auth"
+    ) {
+      this.$router.push("/auth");
+    } else {
+      axios
+        .get("http://localhost:8000/api/auth/isloggedin", config)
+        .then((response) => {
+          if (response.data.message == 0) {
+            //Redirection si l'utilisateur n'est pas connecté
+            this.$router.push("/auth");
+          } else {
+            //Connecté, on obtiens l'utilisateur actuel
+            this.user = response.data;
+          }
+        })
+        .catch(() => {
           this.$router.push("/auth");
-        } else {
-          //Connecté, on obtiens l'utilisateur actuel
-          this.user = response.data;
-        }
-      })
-      .catch(() => {
-        this.$router.push("/auth");
-      });
+        });
+    }
   },
   methods: {
     onUpdateUser(data) {
