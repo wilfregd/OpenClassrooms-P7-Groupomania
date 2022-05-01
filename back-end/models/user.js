@@ -44,10 +44,7 @@ const User = sequelize.define('user', {
     description:{
         type: Sequelize.TEXT,
         allowNull: false,
-        defaultValue: '',
-        get(){
-            return 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tempus sem in arcu tempus pharetra. Sed nisi enim, porta vitae porttitor sed, consequat eget risus. Suspendisse velit orci, ornare nec mollis at, aliquam nec felis. Proin pulvinar turpis sed fermentum luctus. Fusce dignissim tincidunt laoreet. Nulla cursus iaculis purus. Etiam eu ornare velit. Vivamus congue diam nec nisi convallis vehicula vel vitae erat.';
-        }
+        defaultValue: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tempus sem in arcu tempus pharetra. Sed nisi enim, porta vitae porttitor sed, consequat eget risus. Suspendisse velit orci, ornare nec mollis at, aliquam nec felis. Proin pulvinar turpis sed fermentum luctus. Fusce dignissim tincidunt laoreet. Nulla cursus iaculis purus. Etiam eu ornare velit. Vivamus congue diam nec nisi convallis vehicula vel vitae erat.',
     },
 
     profilePic:{

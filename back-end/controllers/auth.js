@@ -22,7 +22,7 @@ module.exports.signup = (req, res, next) => { //TODO don't allow if already logg
     console.log("Réception de requête d'inscription: " + req.body.email);
 
     //Nettoyage de l'email
-    const sanitizer = new Sanitizer();
+    const sanitizer = new Sanitizer(false);
     req.body.email = sanitizer.sanitizeString(req.body.email);
 
     //Vérification de l'email
@@ -35,7 +35,7 @@ module.exports.signup = (req, res, next) => { //TODO don't allow if already logg
         {
             //Email
             if(!emailInUse){
-                if(!sanitizer.isEmpty(req.body.email, 'email_empty', "L'email ne peut pas être vide.")){
+                if(!sanitizer.isEmpty(req.body.email, 'email', "L'email ne peut pas être vide.")){
                     sanitizer.isEmail(req.body.email, "L'email est invalide. Le format doit être sous la forme 'john.doe@mail.com'");
                 }
             }
@@ -61,15 +61,22 @@ module.exports.signup = (req, res, next) => { //TODO don't allow if already logg
             if(!sanitizer.isEmpty(req.body.password, 'password', "Le mot de passe ne peut pas être vide.")){
                 sanitizer.isPassword(req.body.password, "Le mot de passe est invalide. Il doit contenir au moins un chiffre et/ou les symboles '@', '-', '_'");
                 sanitizer.isLength(req.body.password, 8, 25, 'password', "Le mot de passe doit être entre 8 et 25 caractères");
-            }        
+            }  
+            
+            //Conf mot de passe
+            if(!sanitizer.isEmpty(req.body.confPassword, 'confPassword', "Le mot de passe ne peut pas être vide.")){
+                if(req.body.confPassword != req.body.password){
+                    sanitizer.writeError('confPassword', "Les mots des passe de correspondent pas.");
+                }
+            } 
             
         }
-        catch(error){
-            return res.status(400).json({ error: 'Paramètres invalides.' });
+        catch(err){
+            return res.status(500).json(err);
         }
 
         if(sanitizer.hasError){
-            return res.status(400).json({ errors: sanitizer.errors });
+            return res.status(400).json(sanitizer.errors);
         }
 
         //Vérifier si l'utilisateur existe
@@ -117,39 +124,61 @@ module.exports.login = (req, res, next) => { //TODO don't allow if already logge
     console.log("Réception de requête de connection: " + req.body.email);
 
     //Nettoyage de l'email
-    const sanitizer = new Sanitizer();
+    const sanitizer = new Sanitizer(false);
     req.body.email = sanitizer.sanitizeString(req.body.email);
 
     //Vérification de l'email
     User.findOne({ where: { email: req.body.email } })
     .then(user => {
-        if(!user){
-            return res.status(400).json({ error: "L'email ne corresond à aucun compte."});
-        }
+        const emailInUse = user != null;
 
-        //L'utilisateur existe, verification du mot de passe
-        else{
-            bcrypt.compare(req.body.password, user.password)
-            .then(result => {
-                if(!result){
-                    return res.status(400).json({ error: 'Le mot de passe est incorrect. '});
-                }
-                else{
-                    console.log("L'utilisateur '" + req.body.email + "' est connecté.");
+        //Vérification des inputs
+        try {
+            //Email
+            if(emailInUse){
+                sanitizer.isEmpty(req.body.email, 'email', "L'email ne peut pas être vide.")
+            }
+            else{
+                sanitizer.writeError('email', "L'email ne correspon à aucun compte");
+            }
+
+            //Mot de passe
+            sanitizer.isEmpty(req.body.password, 'password', "Le mot de passe ne peut pas être vide.")
+
+            if(user && emailInUse){
+                bcrypt.compare(req.body.password, user.password)
+                .then(result => {
+                    if(!result){
+                        sanitizer.writeError('password', "Le mot de passe est invalide.");
+                    }
+
+                    if(sanitizer.hasError){
+                        return res.status(400).json(sanitizer.errors);
+                    }
+
+                    else{
+                        console.log("L'utilisateur '" + req.body.email + "' est connecté.");
                     
-                    //Get or create user session
-                    req.session.user = {
-                        id: user.id,
-                        nom: user.nom,
-                        prenom: user.prenom,
-                        email: user.email,
-                        isAdmin: user.isAdmin,
-                        isBanned: user.isBanned
-                    };
-                    return res.status(200).json(user);
-                }
-            })
-            .catch(error => res.status(400).json(error));
+                        //Get or create user session
+                        req.session.user = {
+                            id: user.id,
+                            nom: user.nom,
+                            prenom: user.prenom,
+                            email: user.email,
+                            isAdmin: user.isAdmin,
+                            isBanned: user.isBanned
+                        };
+                        return res.status(200).json(user);
+                        
+                    }
+                })
+                .catch(error => res.status(500).json(error));
+            }
+        } 
+        catch (err) {
+            console.log(req.body);
+            console.log(err);
+            return res.status(500).json(err);
         }
     })
     .catch(error => {

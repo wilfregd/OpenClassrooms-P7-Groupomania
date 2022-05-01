@@ -17,6 +17,7 @@ function createDebugData(){
             email: process.env.DEBUG_ADMIN_EMAIL,
             password: hash,
             isAdmin: true,
+            profilePic: "img/debug/user/groupomania.png",
             description: "Administrateur Groupomania",
         };
 
