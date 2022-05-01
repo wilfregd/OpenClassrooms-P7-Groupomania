@@ -56,6 +56,23 @@ Une fois connecté:
 - Supprimer son compte
 - (Si administrateur) Modifier/Supprimer les publications et commentaires des membres
 
-Compte administrateur: 
-email: admin@groupomania.com
-mot de passe: secret_123
+## Compte administrateur: 
+- email: admin@groupomania.com
+- mot de passe: secret_123
+
+## Comptes par défaut
+
+Un certain nombre de comptes sont générés par défaut lors du démarrage du serveur.
+Ils sont tous accessibles via leur adresse mail et le mot de passe "secret_123":
+
+- johndoe@groupomania.com
+- leomartin@groupomania.com
+- gabrielbernard@groupomania.com
+- arthurdubois@groupomania.com
+- quentinlegrand@groupomania.com
+
+- janedoe@groupomania.com
+- jademartin@groupomania.com
+- louisefaure@groupomania.com
+- emmadubois@groupomania.com
+- alicelegrand@groupomania.com
