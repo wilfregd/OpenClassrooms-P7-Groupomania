@@ -35,6 +35,9 @@ Ouvrir le dossier back-end dans le terminal de votre éditeur puis exécuter la 
 puis
 
     node server
+	
+Après le démarrage du serveur ("Server ready and listening on port"), des données "debug" seront ajoutées à la base de données.
+Elles donnent accès à des utilisateurs fictifs et leur création sera notifiée quelque secondes après le lancement du serveur.
 
 ## Utilisation
 

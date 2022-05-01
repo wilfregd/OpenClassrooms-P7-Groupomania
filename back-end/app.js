@@ -23,10 +23,12 @@ createAssociations();
 //Synchronisation des tables
 console.log('> Synchronizing tables to database...');
 sequelize.sync({ logging: false, alter: true })
+.then(() => {
+	//Creéation des données debug
+	debug();
+})
 .catch(error => console.error(error));
 
-//Ajout des données debug
-debug();
 
 //Default middlewares
 app.use(cors({

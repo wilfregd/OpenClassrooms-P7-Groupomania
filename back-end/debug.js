@@ -6,7 +6,6 @@ const Post = require('./models/post');
 const Comment = require('./models/comment');
 
 function createDebugData(){
-    console.log("> Creating debug data...");
 
     //Création de l'admin
     bcrypt.hash(process.env.DEBUG_ADMIN_PASSWORD, 10)
@@ -54,7 +53,10 @@ function createDebugData(){
         ],
         {
           ignoreDuplicates: true,
-        });
+        })
+		.then(() => {
+			console.log("(Debug data created)");
+		});
     })
 }
 
