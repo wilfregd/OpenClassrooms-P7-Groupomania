@@ -1,0 +1,29 @@
+{
+  "name": "groupomania-internal",
+  "version": "1.0.0",
+  "description": "Forum interne Groupomania",
+  "main": "index.js",
+  "scripts": {
+    "devstart": "nodemon server.js",
+    "server": "npm run server.js"
+  },
+  "author": "Corentin Sakwinski",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "express-mysql-session": "^2.1.8",
+    "express-session": "^1.17.2",
+    "jsonwebtoken": "^8.5.1",
+    "memorystore": "^1.6.7",
+    "multer": "^1.4.4",
+    "mysql": "^2.18.1",
+    "mysql2": "^2.3.3",
+    "nodemon": "^2.0.15",
+    "sequelize": "^6.19.0",
+    "session-file-store": "^1.5.0",
+    "uuid": "^8.3.2"
+  }
+}
