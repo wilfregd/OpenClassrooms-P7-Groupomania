@@ -28,17 +28,19 @@
         <!-- LOGIN -->
         <form v-if="display == 0" class="auth-form">
           <h3 class="auth-form__title">Connection</h3>
+          <h5 class="error" v-if="lErrors.email">{{ lErrors.email }}</h5>
           <input
             class="auth-form__input"
             type="email"
             placeholder="email"
-            v-model="lEmail"
+            v-model="lFormValues.email"
           />
+          <h5 class="error" v-if="lErrors.password">{{ lErrors.password }}</h5>
           <input
             class="auth-form__input"
             type="password"
             placeholder="mot de passe"
-            v-model="lPassword"
+            v-model="lFormValues.password"
           />
           <button @click.prevent="onClickLogin" class="auth-form__submit">
             Se connecter
@@ -48,35 +50,42 @@
         <!-- SIGNUP -->
         <form v-if="display == 1" class="auth-form">
           <h3 class="auth-form__title">Inscription</h3>
+          <h5 class="error" v-if="sErrors.nom">{{ sErrors.nom }}</h5>
           <input
             class="auth-form__input"
             type="text"
             placeholder="nom"
-            v-model="sNom"
+            v-model="sFormValues.nom"
           />
+          <h5 class="error" v-if="sErrors.prenom">{{ sErrors.prenom }}</h5>
           <input
             class="auth-form__input"
             type="text"
             placeholder="prénom"
-            v-model="sPrenom"
+            v-model="sFormValues.prenom"
           />
+          <h5 class="error" v-if="sErrors.email">{{ sErrors.email }}</h5>
           <input
             class="auth-form__input"
             type="email"
             placeholder="email"
-            v-model="sEmail"
+            v-model="sFormValues.email"
           />
+          <h5 class="error" v-if="sErrors.password">{{ sErrors.password }}</h5>
           <input
             class="auth-form__input"
             type="password"
             placeholder="mot de passe"
-            v-model="sPassword"
+            v-model="sFormValues.password"
           />
+          <h5 class="error" v-if="sErrors.confPassword">
+            {{ sErrors.confPassword }}
+          </h5>
           <input
             class="auth-form__input"
             type="password"
             placeholder="confirmation mot de passe"
-            v-model="sConfPassword"
+            v-model="sFormValues.confPassword"
           />
           <button @click.prevent="onClickSignup" class="auth-form__submit">
             S'inscrire
@@ -101,15 +110,22 @@ export default {
       display: 0,
 
       //Login form
-      lEmail: "",
-      lPassword: "",
+      lFormValues: {
+        email: "",
+        password: "",
+      },
 
       //Signup form
-      sNom: "",
-      sPrenom: "",
-      sEmail: "",
-      sPassword: "",
-      sConfPassword: "", //TODO manage password confirm
+      sFormValues: {
+        nom: "",
+        prenom: "",
+        email: "",
+        password: "",
+        confPassword: "",
+      },
+
+      lErrors: {},
+      sErrors: {},
     };
   },
   created() {
@@ -140,8 +156,8 @@ export default {
         .post(
           "http://localhost:8000/api/auth/login",
           {
-            email: this.lEmail,
-            password: this.lPassword,
+            email: this.lFormValues.email,
+            password: this.lFormValues.password,
           },
           config
         )
@@ -151,27 +167,40 @@ export default {
             this.$emit("update-user", response.data);
             this.$router.push("/");
           }
+        })
+        .catch((err) => {
+          //Affichage des erreurs obtenues
+          const errObj = JSON.parse(JSON.stringify(err.response));
+          this.lErrors = errObj.data;
         });
     },
     onClickSignup() {
       //Signing Up
+      this.sErrors = {};
+
       axios
         .post(
           "http://localhost:8000/api/auth/signup",
           {
-            nom: this.sNom,
-            prenom: this.sPrenom,
-            email: this.sEmail,
-            password: this.sPassword,
+            nom: this.sFormValues.nom,
+            prenom: this.sFormValues.prenom,
+            email: this.sFormValues.email,
+            password: this.sFormValues.password,
+            confPassword: this.sFormValues.confPassword,
           },
           config
         )
         .then((response) => {
-          if (response.status == 201) {
+          if (response && response.status == 201) {
             //Inscrit et connecté, redirection
             this.$emit("update-user", response.data);
             this.$router.push("/");
           }
+        })
+        .catch((err) => {
+          //Affichage des erreurs obtenues
+          const errObj = JSON.parse(JSON.stringify(err.response));
+          this.sErrors = errObj.data;
         });
     },
   },

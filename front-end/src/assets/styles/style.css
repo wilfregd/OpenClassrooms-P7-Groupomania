@@ -21,6 +21,11 @@ body {
   margin-top: 70px;
 }
 
+.error {
+  font-weight: 100;
+  color: rgb(255, 83, 83);
+}
+
 .userpic {
   margin: 0;
   border-radius: 50px;
