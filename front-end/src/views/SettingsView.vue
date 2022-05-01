@@ -36,12 +36,14 @@
           alt="Utilisateur {{user.prenom}} {{user.nom}}"
         />
       </div>
-      <button class="btn" @click.prevent="onUpdateUserInfo">
-        Modifier les informations
-      </button>
-      <button class="btn btn--red btn--right" @click.prevent="onDeleteUser">
-        Supprimer le compte
-      </button>
+      <div class="settings_buttons">
+        <button class="btn" @click.prevent="onUpdateUserInfo">
+          Modifier les informations
+        </button>
+        <button class="btn btn--red btn--right" @click.prevent="onDeleteUser">
+          Supprimer le compte
+        </button>
+      </div>
     </form>
   </div>
 </template>

@@ -9,7 +9,9 @@
       <div class="user-infobox__infos">
         <h3>{{ pageUser.prenom }} {{ pageUser.nom }}</h3>
         <h4>A propos de {{ pageUser.prenom }}:</h4>
-        <p>{{ pageUser.description }}</p>
+        <div class="user-infobox__description">
+          <p>{{ pageUser.description }}</p>
+        </div>
       </div>
       <!--INFO COLUMN-->
     </div>

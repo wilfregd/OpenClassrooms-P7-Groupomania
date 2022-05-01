@@ -8,6 +8,8 @@
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
 
     & img {
         width: 200px;
@@ -31,5 +33,21 @@
 
     & p {
         padding: 0;
+    }
+}
+
+//---------- MOBILE ----------
+
+@media (max-width: 700px) {
+    .user-infobox {
+        font-size: 0.7em;
+        width: 98%;
+
+        &__description {
+            overflow: scroll;
+            text-overflow: ellipsis;
+            border: 1px solid rgb(221, 221, 221);
+            max-height: 200px;
+        }
     }
 }

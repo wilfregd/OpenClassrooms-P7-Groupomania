@@ -43,6 +43,7 @@
     }
 
     &__imageContainer {
+        margin: 10px 0;
         width: 100%;
         height: fit-content;
         position: relative;
@@ -122,8 +123,10 @@
         padding: 0;
         margin: 0;
         margin-left: 10px;
+        overflow: hidden;
 
         & textarea {
+            resize: none;
             border: 1px solid rgb(221, 221, 221);
             width: 100%;
             height: 80px;
@@ -159,6 +162,9 @@
         margin-left: 10px;
         padding: 0;
         height: 50px;
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
 
         & input {
             padding: 0 5px;
@@ -168,8 +174,8 @@
         }
 
         & .btn {
-            width: 15%;
-            margin-left: 15px;
+            width: 25%;
+            margin-left: 5px;
             padding: 8px 10px;
             font-size: 0.8em;
         }
@@ -200,5 +206,33 @@
             border: 1px solid rgb(150, 150, 150);
             outline: none;
         }
+    }
+}
+
+//---------- MOBILE ----------
+
+@media (max-width: 700px) {
+    .post {
+        min-width: 360px;
+        width: 98%;
+        margin: 10px 0;
+
+        &__imageContainer {
+            & button {
+                opacity: 1;
+            }
+        }
+
+        &__buttons {
+            opacity: 1;
+        }
+    }
+
+    .newpost {
+        width: 98%;
+    }
+
+    .post_container {
+        font-size: 0.6em;
     }
 }

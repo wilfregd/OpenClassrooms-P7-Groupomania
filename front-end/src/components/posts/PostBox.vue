@@ -35,7 +35,7 @@
 
       <!-- CONTENU -->
       <div>
-        <p>{{ post.text }}</p>
+        <p v-if="post.text">{{ post.text }}</p>
         <div v-if="post.image !== ''" class="post__imageContainer">
           <img
             class="post__image"
@@ -174,7 +174,11 @@ export default {
       this.pEditError = "";
 
       //Vérifier les inputs
-      if (this.postTextEdit == "" && this.postFileEdit == null) {
+      if (
+        this.postTextEdit == "" &&
+        this.postFileEdit == null &&
+        !this.post.image
+      ) {
         this.pEditError = "Le post ne peut pas être vide.";
       } else {
         const formData = new FormData();

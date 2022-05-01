@@ -9,9 +9,8 @@
 body {
     background-color: rgb(236, 236, 236);
     font-family: 'Roboto', sans-serif;
-    min-width: 300px;
+    min-width: 360 px;
     height: 97.8vh;
-    //700px for mobile view
 }
 
 #app {
@@ -21,4 +20,12 @@ body {
 
 .page-content {
     margin-top: 70px;
+}
+
+//---------- MOBILE ----------
+
+@media (max-width: 700px) {
+    body {
+        font-size: 1.25rem;
+    }
 }

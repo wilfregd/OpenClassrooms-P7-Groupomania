@@ -69,3 +69,13 @@
         font-size: 0.8em;
     }
 }
+
+//---------- MOBILE ----------
+
+@media (max-width: 700px) {
+    .comment {
+        &__buttons {
+            opacity: 1;
+        }
+    }
+}

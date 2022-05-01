@@ -8,23 +8,27 @@
       />
     </router-link>
     <div class="navbar__userInfo">
-      <router-link :to="{ name: 'user', params: { id: `${user.id}` } }">
-        <img
-          class="userpic"
-          v-if="user.profilePic"
-          v-bind:src="`${user.profilePic}`"
-          alt="Photo de profil utilisateur"
-        />
-      </router-link>
+      <div class="navbar__userInfo__name">
+        <router-link :to="{ name: 'user', params: { id: `${user.id}` } }">
+          <img
+            class="userpic"
+            v-if="user.profilePic"
+            v-bind:src="`${user.profilePic}`"
+            alt="Photo de profil utilisateur"
+          />
+        </router-link>
+      </div>
       <h3>{{ user.prenom }}</h3>
-      <router-link to="/settings">
-        <button>
-          <i class="fa-solid fa-gear fa-lg"></i>
+      <div class="navbar__userInfo__icons">
+        <router-link to="/settings">
+          <button>
+            <i class="fa-solid fa-gear fa-lg"></i>
+          </button>
+        </router-link>
+        <button @click.prevent="onLogout">
+          <i class="fa-solid fa-arrow-right-from-bracket fa-lg"></i>
         </button>
-      </router-link>
-      <button @click.prevent="onLogout">
-        <i class="fa-solid fa-arrow-right-from-bracket fa-lg"></i>
-      </button>
+      </div>
     </div>
   </nav>
   <div class="site-wrapper">

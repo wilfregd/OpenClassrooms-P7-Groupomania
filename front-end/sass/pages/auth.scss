@@ -17,6 +17,7 @@ img {
 }
 
 #form-container {
+    width: 500px;
     background-color: white;
     border-radius: 10px;
     box-shadow: 2px 2px 2px #00000022;
@@ -28,6 +29,7 @@ img {
     }
 
     &__input {
+        width: 100%;
         padding: 5px;
     }
 
@@ -98,4 +100,50 @@ input {
     width: 300px;
     height: 30px;
     margin: 10px 0;
+}
+
+//---------- MOBILE ----------
+
+@media (max-width: 700px) {
+    .main-content {
+        background: #fff;
+        padding-top: 50px;
+    }
+
+    img {
+        width: 70%;
+        margin-bottom: 50px;
+    }
+
+    #form-container {
+        width: 100%;
+        background-color: white;
+        border-radius: 0px;
+        box-shadow: none;
+    }
+
+    .auth-form {
+        &__title {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        &__input {
+            margin-bottom: 30px;
+            font-size: 0.8em;
+            height: 40px;
+            padding: 5px;
+        }
+
+        &__submit {
+            border: 0;
+            border-radius: 0;
+            font-size: 1.0em;
+
+            &:hover {
+                background-color: rgb(77, 128, 170);
+                cursor: pointer;
+            }
+        }
+    }
 }

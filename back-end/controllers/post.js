@@ -141,15 +141,16 @@ module.exports.removePostImage = (req, res, next) => {
 };
 
 module.exports.updatePost = (req, res, next) => {
-    if(!req.file && req.body.text === ""){
-        console.error("Trying to edit post without content.");
-        return res.status(400).json({ error: 'Le post ne peut pas être vide.' });
-    }
-
     //On trouve le post correspondant, il permet de s'occuper de l'image
     Post.findOne({ where: { id: req.body.id }})
     .then(post => {
         if(post){
+
+            if((!req.file && req.body.text === "") && post.image == ""){
+                console.error("Trying to edit post without content.");
+                return res.status(400).json({ error: 'Le post ne peut pas être vide.' });
+            }
+
             //Vérification de l'utilisateur qui a créé le post
             if(post.userId == req.session.user.id || req.session.user.isAdmin){
                 //Suppression de l'ancienne image si une nouvelle est uploadée
