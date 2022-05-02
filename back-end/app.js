@@ -1,5 +1,6 @@
 //Server
 require('dotenv').config();
+var fs = require('fs');
 const debug = require('./debug');
 const cors = require('cors');
 const session = require('express-session');
@@ -16,6 +17,21 @@ const authRoute = require('./routes/auth');
 const userRoute = require('./routes/user');
 const postRoute = require('./routes/post');
 const adminRoute = require('./routes/admin');
+
+//Création des dossiers par défaut
+const folders = [
+    "./sessions",
+    "./public/img/post",
+    "./public/img/user",
+    "./public/img/debug/posts",
+    "./public/img/debug/user"
+]
+
+folders.forEach(folder => {
+    if(!fs.existsSync(folder)){
+        fs.mkdirSync(folder, {recursive: true});
+    }
+});
 
 //Attribution des associations
 createAssociations();
