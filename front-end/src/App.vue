@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar" v-if="!$route.meta.hideDefaultTemplate && user" v-cloak>
+  <nav class="navbar" v-if="!$route.meta.hideDefaultTemplate && user && !isSearchingUser" v-cloak>
     <router-link to="/">
       <img
         class="navbar__logo"
@@ -31,7 +31,7 @@
       </div>
     </div>
   </nav>
-  <div class="site-wrapper">
+  <div v-if="!isSearchingUser" class="site-wrapper">
     <router-view v-if="user" @update-user="onUpdateUser" v-bind:user="user" />
     <!--<footerMain v-if="!$route.meta.hideDefaultTemplate" />-->
   </div>
@@ -46,23 +46,21 @@ export default {
   data() {
     return {
       user: {},
-      userSearchText: "",
+		userSearchText: "",
+		isSearchingUser: true
     };
   },
   components: {
     //footerMain,
   },
-  beforeRouteEnter() {},
-  beforeCreate() {
+  created() {
     if (
-      document.cookie.indexOf("userToken") == -1 &&
       this.$route.name != "auth"
-    ) {
-      this.$router.push("/auth");
-    } else {
+    ) {		
       axios
         .get("http://localhost:8000/api/auth/isloggedin", config)
         .then((response) => {
+		this.isSearchingUser = false;
           if (response.data.message == 0) {
             //Redirection si l'utilisateur n'est pas connecté
             this.$router.push("/auth");
@@ -72,9 +70,13 @@ export default {
           }
         })
         .catch(() => {
+			this.isSearchingUser = false;
           this.$router.push("/auth");
         });
     }
+	else{
+		this.isSearchingUser = false;
+	}
   },
   methods: {
     onUpdateUser(data) {

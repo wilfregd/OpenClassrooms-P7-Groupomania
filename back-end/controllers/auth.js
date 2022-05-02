@@ -128,7 +128,8 @@ module.exports.signup = (req, res, next) => {
 
 module.exports.login = (req, res, next) => { //TODO don't allow if already logged in
     console.log("Réception de requête de connection: " + req.body.email);
-
+	console.log("Req: " + JSON.stringify(req.body));
+	
     //Nettoyage de l'email
     const sanitizer = new Sanitizer(false);
     req.body.email = sanitizer.sanitizeString(req.body.email);

@@ -24,7 +24,7 @@ puis
 
 si le navigateur ne s'ouvre pas automatiquement allez à :
 
-- http://localhost:8080/
+- http://localhost:8080/auth
 
 ## Backend
 

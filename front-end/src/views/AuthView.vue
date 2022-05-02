@@ -170,6 +170,7 @@ export default {
         })
         .catch((err) => {
           //Affichage des erreurs obtenues
+			console.log(err);
           const errObj = JSON.parse(JSON.stringify(err.response));
           this.lErrors = errObj.data;
         });

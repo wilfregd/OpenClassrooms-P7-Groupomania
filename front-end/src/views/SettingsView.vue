@@ -93,9 +93,9 @@ export default {
 
       const formData = new FormData();
       formData.append("id", this.user.id);
-      formData.append("nom", this.userNom);
-      formData.append("prenom", this.userPrenom);
-      formData.append("description", this.userDescription);
+      formData.append("nom", this.eFormValues.nom);
+      formData.append("prenom", this.eFormValues.prenom);
+      formData.append("description", this.eFormValues.description);
 
       if (this.formFile != null) {
         formData.append("image", this.formFile, this.formFile.name);

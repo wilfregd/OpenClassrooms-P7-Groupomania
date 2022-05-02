@@ -34,6 +34,7 @@ function createDebugData(){
     .catch(err => console.log(err));
 
     //Création de faux comptes utilisateurs
+	console.log("> Creating debug data...");
     bcrypt.hash(process.env.DEBUG_ACCOUNTS_PASSWORD, 10)
     .then(hash => {
         User.bulkCreate([

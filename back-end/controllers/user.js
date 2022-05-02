@@ -17,6 +17,7 @@ module.exports.getUser = (req, res, next) => {
 };
 
 module.exports.updateUserInfo = (req, res, next) => {
+	
     if(!req.file && req.body.text === ""){
         console.error("Trying to edit post without content.");
         return res.status(400).json({ error: 'Le post ne peut pas être vide.' });
