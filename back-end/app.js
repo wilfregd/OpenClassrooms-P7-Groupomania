@@ -16,7 +16,6 @@ const createAssociations = require('./associations');
 const authRoute = require('./routes/auth');
 const userRoute = require('./routes/user');
 const postRoute = require('./routes/post');
-const adminRoute = require('./routes/admin');
 
 //Création des dossiers par défaut
 const folders = [
@@ -85,6 +84,5 @@ app.use((req, res, next) => {
 app.use('/api/auth', authRoute);
 app.use('/api/user', userRoute);
 app.use('/api/post', postRoute);
-app.use('/api/admin', adminRoute);
 
 module.exports = app;
