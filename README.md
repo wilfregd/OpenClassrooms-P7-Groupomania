@@ -7,7 +7,8 @@
 ## Base de données
 
 - Se connecter au serveur **MySql** de votre choix.
-- Créer la base de données "groupomania"
+- Créer la base de données "groupomania".
+- Les identifiants et informations de connection à modifier se trouvent dans le fichier .env du dossier back-end
 > Les tables seront générées par le serveur au lancement si elles n'existent pas déjà.
 Vérifiez les identifiants en haut du fichier .env du dossier back-end.
 
