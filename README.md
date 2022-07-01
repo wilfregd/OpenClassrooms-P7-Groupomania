@@ -80,3 +80,12 @@ Ils sont tous accessibles via leur adresse mail et le mot de passe "secret_123":
 - louisefaure@groupomania.com
 - emmadubois@groupomania.com
 - alicelegrand@groupomania.com
+
+
+
+
+
+## Comptes par défaut
+<img src="https://github.com/wilfregd/OpenClassrooms-P7-Groupomania/blob/main/screenshots/groupomania_auth.png" style="width:500px">
+<img src="https://github.com/wilfregd/OpenClassrooms-P7-Groupomania/blob/main/screenshots/groupomania_feed.png" style="width:500px">
+<img src="https://github.com/wilfregd/OpenClassrooms-P7-Groupomania/blob/main/screenshots/groupomania_profile.png" style="width:500px">
